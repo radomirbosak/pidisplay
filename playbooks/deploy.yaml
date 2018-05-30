@@ -1,0 +1,14 @@
+---
+- hosts:
+    - raspberry-pis
+  tasks:
+    - name: "Install Fourletter phat package"
+      package:
+        name: python3-fourletterphat
+        state: present
+      become: true
+
+    - name: "Copy the main script"
+      copy:
+        src: example.py
+        dest: ~/example.py

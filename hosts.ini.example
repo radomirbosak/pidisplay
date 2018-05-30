@@ -1,0 +1,9 @@
+
+
+[raspberry-pis]
+192.168.1.10	rpi_id=0
+192.168.1.11	rpi_id=1
+192.168.1.12	rpi_id=2
+
+[raspberry-pis:vars]
+ansible_user=pi

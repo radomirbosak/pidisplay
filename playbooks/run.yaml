@@ -1,0 +1,6 @@
+---
+- hosts:
+    - raspberry-pis
+  tasks:
+    - name: "Run example"
+      command: "python3 ~/example.py"
