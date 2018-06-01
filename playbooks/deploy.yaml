@@ -17,6 +17,13 @@
       copy:
         src: example.py
         dest: "{{ pidi_script_folder }}/example.py"
+      tags: ["script"]
+
+    - name: "Copy runtime constants"
+      template:
+        src: constants.py.j2
+        dest: "{{ pidi_script_folder }}/constants.py"
+      tags: ["script"]
 
     - name: Install systemd unit file
       template:
