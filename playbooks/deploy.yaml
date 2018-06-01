@@ -21,5 +21,9 @@
       become: true
 
     - name: Enable systemd service
-      systemd: name=pidisplay enabled=yes daemon_reload=yes
+      systemd:
+        name: pidisplay
+        state: restarted
+        enabled: yes
+        daemon_reload: yes
       become: true
