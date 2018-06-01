@@ -1,1 +1,2 @@
-pidi_script_path: /home/pi/example.py
+pidi_script_folder: /home/pi/pidi
+pidi_info_file: /home/pi/fajl.txt

@@ -3,7 +3,7 @@
     - raspberry-pis
   tasks:
     - name: "Run example"
-      command: "python3 {{ pidi_script_path }}"
+      command: "python3 {{ pidi_script_folder }}/example.py"
 
   vars_files:
     - vars/main.yaml

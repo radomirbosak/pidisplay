@@ -8,14 +8,19 @@
         state: present
       become: true
 
+    - name: "Make sure the main folder exists"
+      file:
+        path: "{{ pidi_script_folder }}"
+        state: directory
+
     - name: "Copy the main script"
       copy:
         src: example.py
-        dest: "{{ pidi_script_path }}"
+        dest: "{{ pidi_script_folder }}/example.py"
 
     - name: Install systemd unit file
-      copy:
-        src: pidisplay.service
+      template:
+        src: pidisplay.service.j2
         dest: /etc/systemd/system/pidisplay.service
         mode: 0644
       become: true
