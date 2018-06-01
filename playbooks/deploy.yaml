@@ -12,3 +12,14 @@
       copy:
         src: example.py
         dest: ~/example.py
+
+    - name: Install systemd unit file
+      copy:
+        src: pidisplay.service
+        dest: /etc/systemd/system/pidisplay.service
+        mode: 0644
+      become: true
+
+    - name: Enable systemd service
+      systemd: name=pidisplay enabled=yes daemon_reload=yes
+      become: true
