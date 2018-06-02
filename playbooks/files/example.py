@@ -8,38 +8,61 @@ import fourletterphat as flp
 import constants
 
 
+def get_device_instructions(rpi_id, dir_file_list):
+    pattern = 'info_{:03}_(....)_Z\.txt'.format(rpi_id)
+    instructions = []
+    for somefile in dir_file_list:
+        m = re.match(pattern, somefile)
+        if m:
+            instructions.append(m.group(1))
+    return instructions
+
+
+def display_state(rpi_id, pidi_status_dir):
+    try:
+        dir_file_list = os.listdir(pidi_status_dir)
+    except FileNotFoundError:
+        flp.scroll_print('ERROR - REMOTE DIR NOT FOUND!')
+        return
+    except PermissionError:
+        flp.scroll_print('ERROR - REMOTE DIR NOT PERMITTED!')
+        return
+
+    instructions = get_device_instructions(rpi_id, dir_file_list)
+    if not instructions:
+        flp.scroll_print('ERROR - FILE FOR THIS RASPBERRY NOT FOUND!')
+        return
+
+    if len(instructions) > 1:
+        flp.scroll_print('ERROR - TOO MANY INSTRUCTIONS')
+        return
+
+    instr = instructions[0]
+    flp.print_str(instr)
+    flp.show()
+
+    rename_instruction(rpi_id, instr)
+
+
+def rename_instruction(rpi_id, code):
+    pattern = 'info_{:03}_{}_{}.txt'
+    src = pattern.format(rpi_id, code, 'Z')
+    dst = pattern.format(rpi_id, code, 'K')
+    os.rename(src, dst)
+
+
 def main():
     rpi_id = constants.rpi_id
     pidi_status_dir = constants.pidi_status_dir
-    rpi_string = "rpi_id = " + str(rpi_id)
-    infofile_string = "pidi_status_dir = " + pidi_status_dir
-
 
     flp.clear()
 
-    flp.scroll_print("STAR")
-    # flp.scroll_print(rpi_string.upper())
-    # flp.scroll_print(infofile_string.upper())
+    flp.scroll_print("START")
+    time.sleep(2)
 
-    try:
-        dir_files = os.listdir(pidi_status_dir)
-        pattern = 'info_{}_(....)_(.)\.txt'.format(rpi_id)
-        for somefile in dir_files:
-            m = re.match(pattern, somefile)
-            if m:
-                flp.print_str(m.group(1))
-                flp.show()
-                time.sleep(5)
-                break
-        else:
-            flp.scroll_print('ERROR - FILE FOR THIS RASPBERRY NOT FOUND!')
-    except FileNotFoundError:
-        flp.scroll_print('ERROR - REMOTE DIR NOT FOUND!')
-    except PermissionError:
-        flp.scroll_print('ERROR - REMOTE DIR NOT PERMITTED!')
-
-    flp.scroll_print("END.")
-    time.sleep(1)
+    while True:
+        display_state(rpi_id, pidi_status_dir)
+        sleep(2)
 
 
 if __name__ == '__main__':
