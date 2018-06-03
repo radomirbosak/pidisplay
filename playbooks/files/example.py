@@ -41,13 +41,17 @@ def display_state(rpi_id, pidi_status_dir):
     flp.print_str(instr)
     flp.show()
 
-    rename_instruction(rpi_id, instr)
+    rename_instruction(rpi_id, instr, pidi_status_dir)
 
 
-def rename_instruction(rpi_id, code):
+def rename_instruction(rpi_id, code, pidi_status_dir):
     pattern = 'info_{:03}_{}_{}.txt'
     src = pattern.format(rpi_id, code, 'Z')
     dst = pattern.format(rpi_id, code, 'K')
+
+    src = os.path.join(pidi_status_dir, src)
+    dst = os.path.join(pidi_status_dir, dst)
+
     os.rename(src, dst)
 
 
