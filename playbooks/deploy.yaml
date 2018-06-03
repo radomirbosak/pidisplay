@@ -54,6 +54,3 @@
         enabled: yes
         daemon_reload: yes
       become: true
-
-  vars_files:
-    - vars/main.yaml

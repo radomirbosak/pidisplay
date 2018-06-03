@@ -7,3 +7,8 @@
 
 [raspberry-pis:vars]
 ansible_user=pi
+
+pidi_script_folder=/home/pi/pidi
+pidi_status_dir=/mnt/samba/statuses
+pidi_samba_share_host=//192.168.1.2/my_share
+pidi_samba_share_mountpoint=/mnt/samba
