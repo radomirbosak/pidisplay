@@ -19,7 +19,7 @@ make deploy
 
 ## Test
 
-This runs the test example on every target host.
+This runs the main script on every target host.
 ```
 make run
 ```

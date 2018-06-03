@@ -15,8 +15,8 @@
 
     - name: "Copy the main script"
       copy:
-        src: example.py
-        dest: "{{ pidi_script_folder }}/example.py"
+        src: pi4display.py
+        dest: "{{ pidi_script_folder }}/pi4display.py"
       tags: ["script"]
 
     - name: "Copy runtime constants"

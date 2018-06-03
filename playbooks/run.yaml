@@ -2,8 +2,8 @@
 - hosts:
     - raspberry-pis
   tasks:
-    - name: "Run example"
-      command: "python3 {{ pidi_script_folder }}/example.py"
+    - name: "Run the main script"
+      command: "python3 {{ pidi_script_folder }}/pi4display.py"
 
   vars_files:
     - vars/main.yaml
