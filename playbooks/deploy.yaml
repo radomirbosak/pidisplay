@@ -25,6 +25,21 @@
         dest: "{{ pidi_script_folder }}/constants.py"
       tags: ["script"]
 
+    - name: "Create samba share mountpoint"
+      file:
+        path: "{{ pidi_samba_share_mountpoint }}"
+        state: directory
+      become: true
+
+    - name: "Mount samba share"
+      mount:
+        path: "{{ pidi_samba_share_mountpoint }}"
+        src: "{{ pidi_samba_share_host }}"
+        fstype: cifs
+        state: mounted
+        opts: "password="
+      become: true
+
     - name: Install systemd unit file
       template:
         src: pidisplay.service.j2
