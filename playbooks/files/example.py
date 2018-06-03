@@ -8,6 +8,9 @@ import fourletterphat as flp
 import constants
 
 
+last_state = None
+
+
 def get_device_instructions(rpi_id, dir_file_list):
     pattern = 'info_{:03}_(....)_Z\.txt'.format(rpi_id)
     instructions = []
@@ -19,6 +22,8 @@ def get_device_instructions(rpi_id, dir_file_list):
 
 
 def display_state(rpi_id, pidi_status_dir):
+    global last_state
+
     try:
         dir_file_list = os.listdir(pidi_status_dir)
     except FileNotFoundError:
@@ -30,8 +35,11 @@ def display_state(rpi_id, pidi_status_dir):
 
     instructions = get_device_instructions(rpi_id, dir_file_list)
     if not instructions:
-        flp.scroll_print('ERROR - FILE FOR THIS RASPBERRY NOT FOUND!')
-        return
+        if last_state is None:
+            flp.scroll_print('ERROR - FILE FOR THIS RASPBERRY NOT FOUND!')
+            return
+        else:
+            instructions = [last_state]
 
     if len(instructions) > 1:
         flp.scroll_print('ERROR - TOO MANY INSTRUCTIONS')
@@ -42,6 +50,7 @@ def display_state(rpi_id, pidi_status_dir):
     flp.show()
 
     rename_instruction(rpi_id, instr, pidi_status_dir)
+    last_state = instr
 
 
 def rename_instruction(rpi_id, code, pidi_status_dir):
@@ -52,10 +61,14 @@ def rename_instruction(rpi_id, code, pidi_status_dir):
     src = os.path.join(pidi_status_dir, src)
     dst = os.path.join(pidi_status_dir, dst)
 
-    os.rename(src, dst)
+    if os.path.exists(src):
+        os.rename(src, dst)
 
 
 def main():
+    global last_state
+    last_state = None
+
     rpi_id = constants.rpi_id
     pidi_status_dir = constants.pidi_status_dir
 
