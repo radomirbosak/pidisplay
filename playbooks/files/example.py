@@ -66,7 +66,7 @@ def main():
 
     while True:
         display_state(rpi_id, pidi_status_dir)
-        sleep(2)
+        time.sleep(2)
 
 
 if __name__ == '__main__':
